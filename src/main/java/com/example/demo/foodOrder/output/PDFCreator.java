@@ -27,7 +27,7 @@ public class PDFCreator {
 
     public static void createSpeiseplanPDF(Speiseplan speiseplan, String dokumentName) throws FileNotFoundException, MalformedURLException {
         // Creating a PdfWriter
-        String dest = "src/main/java/com/example/demo/foodOrder/pdf/" + dokumentName +".pdf";
+        String dest = "src/generated/" + dokumentName +".pdf";
         PdfWriter writer = new PdfWriter(dest);
 
         // Creating a PdfDocument
