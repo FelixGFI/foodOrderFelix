@@ -2,13 +2,13 @@ package com.example.demo;
 
 import javafx.scene.control.TextField;
 
-public class validierungsDaten {
+public class ValidierungsDaten {
 
     private int fehlercode;
     private TextField focusedFehler;
     private boolean valide;
 
-    public validierungsDaten(int fehlercode, TextField focusedFehler, boolean valide) {
+    public ValidierungsDaten(int fehlercode, TextField focusedFehler, boolean valide) {
         this.fehlercode = fehlercode;
         this.focusedFehler = focusedFehler;
         this.valide = valide;

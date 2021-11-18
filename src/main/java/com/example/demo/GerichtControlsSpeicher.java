@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-public class FXMLGerichtSpeicher {
+public class GerichtControlsSpeicher {
 
     private Button bt;
     private TextField tfName;
@@ -13,7 +13,7 @@ public class FXMLGerichtSpeicher {
     private String tag;
     private String imPath;
 
-    public FXMLGerichtSpeicher(Button bt, TextField tfName, TextField tfPreis, ImageView im, String imPath, String tag) {
+    public GerichtControlsSpeicher(Button bt, TextField tfName, TextField tfPreis, ImageView im, String imPath, String tag) {
         this.bt = bt;
         this.tfName = tfName;
         this.tfPreis = tfPreis;

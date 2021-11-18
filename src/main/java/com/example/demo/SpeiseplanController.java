@@ -107,7 +107,7 @@ public class SpeiseplanController {
     @FXML private Button btFreC = new Button();
 
 
-    private final HashMap<Button, FXMLGerichtSpeicher> zuordnung = new HashMap<>();
+    private final HashMap<Button, GerichtControlsSpeicher> zuordnung = new HashMap<>();
     private FileChooser fileChooser = new FileChooser();
     private Image noImage;
     private Boolean validated = false;
@@ -149,26 +149,26 @@ public class SpeiseplanController {
                 btMonB, btDinB, btMitB, btDonB, btFreB,
                 btMonC, btDinC, btMitC, btDonC, btFreC));
 
-        zuordnung.put(btMonA, new FXMLGerichtSpeicher (btMonA, tfNameMonA, tfPreisMonA, imMonA, noImagePath, "Mon"));
-        zuordnung.put(btDinA, new FXMLGerichtSpeicher (btDinA, tfNameDinA, tfPreisDinA, imDinA, noImagePath,"Die"));
-        zuordnung.put(btMitA, new FXMLGerichtSpeicher (btMitA, tfNameMitA, tfPreisMitA, imMitA, noImagePath,"Mit"));
-        zuordnung.put(btDonA, new FXMLGerichtSpeicher (btDonA, tfNameDonA, tfPreisDonA, imDonA, noImagePath,"Don"));
-        zuordnung.put(btFreA, new FXMLGerichtSpeicher (btFreA, tfNameFreA, tfPreisFreA, imFreA, noImagePath,"Fre"));
+        zuordnung.put(btMonA, new GerichtControlsSpeicher(btMonA, tfNameMonA, tfPreisMonA, imMonA, noImagePath, "Mon"));
+        zuordnung.put(btDinA, new GerichtControlsSpeicher(btDinA, tfNameDinA, tfPreisDinA, imDinA, noImagePath,"Die"));
+        zuordnung.put(btMitA, new GerichtControlsSpeicher(btMitA, tfNameMitA, tfPreisMitA, imMitA, noImagePath,"Mit"));
+        zuordnung.put(btDonA, new GerichtControlsSpeicher(btDonA, tfNameDonA, tfPreisDonA, imDonA, noImagePath,"Don"));
+        zuordnung.put(btFreA, new GerichtControlsSpeicher(btFreA, tfNameFreA, tfPreisFreA, imFreA, noImagePath,"Fre"));
 
-        zuordnung.put(btMonB, new FXMLGerichtSpeicher (btMonB, tfNameMonB, tfPreisMonB, imMonB, noImagePath,"Mon"));
-        zuordnung.put(btDinB, new FXMLGerichtSpeicher (btDinB, tfNameDinB, tfPreisDinB, imDinB, noImagePath,"Die"));
-        zuordnung.put(btMitB, new FXMLGerichtSpeicher (btMitB, tfNameMitB, tfPreisMitB, imMitB, noImagePath,"Mit"));
-        zuordnung.put(btDonB, new FXMLGerichtSpeicher (btDonB, tfNameDonB, tfPreisDonB, imDonB, noImagePath,"Don"));
-        zuordnung.put(btFreB, new FXMLGerichtSpeicher (btFreB, tfNameFreB, tfPreisFreB, imFreB, noImagePath,"Fre"));
+        zuordnung.put(btMonB, new GerichtControlsSpeicher(btMonB, tfNameMonB, tfPreisMonB, imMonB, noImagePath,"Mon"));
+        zuordnung.put(btDinB, new GerichtControlsSpeicher(btDinB, tfNameDinB, tfPreisDinB, imDinB, noImagePath,"Die"));
+        zuordnung.put(btMitB, new GerichtControlsSpeicher(btMitB, tfNameMitB, tfPreisMitB, imMitB, noImagePath,"Mit"));
+        zuordnung.put(btDonB, new GerichtControlsSpeicher(btDonB, tfNameDonB, tfPreisDonB, imDonB, noImagePath,"Don"));
+        zuordnung.put(btFreB, new GerichtControlsSpeicher(btFreB, tfNameFreB, tfPreisFreB, imFreB, noImagePath,"Fre"));
 
-        zuordnung.put(btMonC, new FXMLGerichtSpeicher (btMonC, tfNameMonC, tfPreisMonC, imMonC, noImagePath,"Mon"));
-        zuordnung.put(btDinC, new FXMLGerichtSpeicher (btDinC, tfNameDinC, tfPreisDinC, imDinC, noImagePath,"Die"));
-        zuordnung.put(btMitC, new FXMLGerichtSpeicher (btMitC, tfNameMitC, tfPreisMitC, imMitC, noImagePath,"Mit"));
-        zuordnung.put(btDonC, new FXMLGerichtSpeicher (btDonC, tfNameDonC, tfPreisDonC, imDonC, noImagePath,"Don"));
-        zuordnung.put(btFreC, new FXMLGerichtSpeicher (btFreC, tfNameFreC, tfPreisFreC, imFreC, noImagePath,"Fre"));
+        zuordnung.put(btMonC, new GerichtControlsSpeicher(btMonC, tfNameMonC, tfPreisMonC, imMonC, noImagePath,"Mon"));
+        zuordnung.put(btDinC, new GerichtControlsSpeicher(btDinC, tfNameDinC, tfPreisDinC, imDinC, noImagePath,"Die"));
+        zuordnung.put(btMitC, new GerichtControlsSpeicher(btMitC, tfNameMitC, tfPreisMitC, imMitC, noImagePath,"Mit"));
+        zuordnung.put(btDonC, new GerichtControlsSpeicher(btDonC, tfNameDonC, tfPreisDonC, imDonC, noImagePath,"Don"));
+        zuordnung.put(btFreC, new GerichtControlsSpeicher(btFreC, tfNameFreC, tfPreisFreC, imFreC, noImagePath,"Fre"));
 
 
-        for (Map.Entry<Button, FXMLGerichtSpeicher> set : zuordnung.entrySet()) {
+        for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
             set.getValue().getIm().setImage(noImage);
             set.getValue().getTfName().setPromptText("Bezeichnung");
             set.getValue().getTfPreis().setPromptText("Preis");
@@ -189,27 +189,27 @@ public class SpeiseplanController {
             ArrayList<Gericht> donList = speiseplan.getDon();
             ArrayList<Gericht> freList = speiseplan.getFre();
 
-            ArrayList<FXMLGerichtSpeicher> monFXMLList = new ArrayList<>(Arrays.asList(
+            ArrayList<GerichtControlsSpeicher> monFXMLList = new ArrayList<>(Arrays.asList(
                     zuordnung.get(btMonA),
                     zuordnung.get(btMonB),
                     zuordnung.get(btMonC)
             ));
-            ArrayList<FXMLGerichtSpeicher> dieFXMLList = new ArrayList<>(Arrays.asList(
+            ArrayList<GerichtControlsSpeicher> dieFXMLList = new ArrayList<>(Arrays.asList(
                     zuordnung.get(btDinA),
                     zuordnung.get(btDinB),
                     zuordnung.get(btDinC)
             ));
-            ArrayList<FXMLGerichtSpeicher> mitFXMLList = new ArrayList<>(Arrays.asList(
+            ArrayList<GerichtControlsSpeicher> mitFXMLList = new ArrayList<>(Arrays.asList(
                     zuordnung.get(btMitA),
                     zuordnung.get(btMitB),
                     zuordnung.get(btMitC)
             ));
-            ArrayList<FXMLGerichtSpeicher> donFXMLList = new ArrayList<>(Arrays.asList(
+            ArrayList<GerichtControlsSpeicher> donFXMLList = new ArrayList<>(Arrays.asList(
                     zuordnung.get(btDonA),
                     zuordnung.get(btDonB),
                     zuordnung.get(btDonC)
             ));
-            ArrayList<FXMLGerichtSpeicher> freFXMLList = new ArrayList<>(Arrays.asList(
+            ArrayList<GerichtControlsSpeicher> freFXMLList = new ArrayList<>(Arrays.asList(
                     zuordnung.get(btFreA),
                     zuordnung.get(btFreB),
                     zuordnung.get(btFreC)
@@ -227,7 +227,7 @@ public class SpeiseplanController {
 
     }
 
-    private void addAllGerichteToTag(ArrayList<Gericht> gerichtList, ArrayList<FXMLGerichtSpeicher> fxmlList) {
+    private void addAllGerichteToTag(ArrayList<Gericht> gerichtList, ArrayList<GerichtControlsSpeicher> fxmlList) {
         if(gerichtList != null) {
             fxmlList.get(0).getTfName().setText(gerichtList.get(0).getBezeichnung());
             fxmlList.get(0).getTfPreis().setText(String.valueOf(gerichtList.get(0).getPreis()));
@@ -251,7 +251,7 @@ public class SpeiseplanController {
         }
     }
 
-    private void setImage(Gericht ger, FXMLGerichtSpeicher fxmlSpeicher) {
+    private void setImage(Gericht ger, GerichtControlsSpeicher fxmlSpeicher) {
         try {
             File f = new File(ger.getGerichtBildPath());
             FileInputStream input = new FileInputStream(f);
@@ -267,7 +267,7 @@ public class SpeiseplanController {
     protected void onResetButtonClick() {
         Stage stage = (Stage) btMonA.getScene().getWindow();
         Button b = (Button) stage.getScene().getFocusOwner();
-        FXMLGerichtSpeicher fxmlGS = zuordnung.get(b);
+        GerichtControlsSpeicher fxmlGS = zuordnung.get(b);
         fxmlGS.getIm().setImage(noImage);
         fxmlGS.getTfName().setText("");
         fxmlGS.getTfPreis().setText("");
@@ -313,8 +313,8 @@ public class SpeiseplanController {
         Image image = new Image(input);
         im.setImage(image);
 
-        for (Map.Entry<Button, FXMLGerichtSpeicher> set : zuordnung.entrySet()) {
-            FXMLGerichtSpeicher gerichtSpeicher = set.getValue();
+        for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
+            GerichtControlsSpeicher gerichtSpeicher = set.getValue();
             if(gerichtSpeicher.getIm() == im) {
                 zuordnung.get(gerichtSpeicher.getBt()).setImPath(file.getPath());
                 break;
@@ -332,7 +332,7 @@ public class SpeiseplanController {
     @FXML
     protected void onBtBestaetigenClick() {
 
-        validierungsDaten validierungsDaten = validieren();
+        ValidierungsDaten validierungsDaten = validieren();
 
         if(validierungsDaten.isValide()) {
 
@@ -354,7 +354,7 @@ public class SpeiseplanController {
                 }
             }
             for(Button b : buttonList) {
-                FXMLGerichtSpeicher gerichteSpeicher = zuordnung.get(b);
+                GerichtControlsSpeicher gerichteSpeicher = zuordnung.get(b);
 
                 if(!gerichteSpeicher.getTfName().getText().equals("") && !gerichteSpeicher.getTfPreis().getText().equals("")) {
                     String name = gerichteSpeicher.getTfName().getText();
@@ -418,7 +418,7 @@ public class SpeiseplanController {
 
     }
 
-    protected validierungsDaten validieren() {
+    protected ValidierungsDaten validieren() {
         int fehlerCode = -1;
         TextField firstFehlerField = null;
         Paint farbeGelb = Paint.valueOf("yellow");
@@ -438,9 +438,9 @@ public class SpeiseplanController {
             tfKW.setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
         }
 
-        for (Map.Entry<Button, FXMLGerichtSpeicher> set : zuordnung.entrySet()) {
+        for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
 
-            FXMLGerichtSpeicher gericht = set.getValue();
+            GerichtControlsSpeicher gericht = set.getValue();
 
             gericht.getTfName().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
             gericht.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
@@ -504,9 +504,9 @@ public class SpeiseplanController {
         }
 
         if(fehlerCode == -1) {
-            return new validierungsDaten(fehlerCode, firstFehlerField, true);
+            return new ValidierungsDaten(fehlerCode, firstFehlerField, true);
         } else {
-            return new validierungsDaten(fehlerCode, firstFehlerField, false);
+            return new ValidierungsDaten(fehlerCode, firstFehlerField, false);
         }
     }
 
@@ -523,10 +523,10 @@ public class SpeiseplanController {
 
     private void setFocusOnNextTextEmptyTextField(KeyEvent event) {
 
-        FXMLGerichtSpeicher gerichtAkktuel = null;
+        GerichtControlsSpeicher gerichtAkktuel = null;
 
         if(!(event.getSource() == tfKW)) {
-            for (Map.Entry<Button, FXMLGerichtSpeicher> set : zuordnung.entrySet()) {
+            for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
                 if(set.getValue().getTfPreis() == event.getSource() || set.getValue().getTfName() == event.getSource()){
                     gerichtAkktuel = set.getValue();
                 }
