@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.foodOrder.gui;
 
 import com.example.demo.foodOrder.SpeiseplanApp;
 import com.example.demo.foodOrder.logic.Gericht;

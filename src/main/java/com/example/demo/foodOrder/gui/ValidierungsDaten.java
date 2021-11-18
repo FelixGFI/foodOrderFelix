@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.foodOrder.gui;
 
 import javafx.scene.control.TextField;
 
