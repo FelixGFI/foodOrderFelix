@@ -1,10 +1,9 @@
-package com.example.demo.foodOrder.logic.classes;
+package com.example.demo.foodOrder.logic;
 
+import com.example.demo.foodOrder.logic.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

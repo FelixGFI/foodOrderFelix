@@ -1,6 +1,4 @@
-package com.example.demo.foodOrder.logic.classes;
-
-import com.itextpdf.layout.element.Image;
+package com.example.demo.foodOrder.logic;
 
 import java.util.ArrayList;
 

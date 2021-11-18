@@ -1,4 +1,4 @@
-package com.example.demo.foodOrder.logic.classes;
+package com.example.demo.foodOrder.logic;
 
 public class SpeiseplanException extends RuntimeException{
 

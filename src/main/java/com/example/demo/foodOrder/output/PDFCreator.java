@@ -1,7 +1,7 @@
 package com.example.demo.foodOrder.output;
 
-import com.example.demo.foodOrder.logic.classes.Gericht;
-import com.example.demo.foodOrder.logic.classes.Speiseplan;
+import com.example.demo.foodOrder.logic.Gericht;
+import com.example.demo.foodOrder.logic.Speiseplan;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;

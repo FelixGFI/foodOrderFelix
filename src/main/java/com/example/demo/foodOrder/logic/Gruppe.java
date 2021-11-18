@@ -1,4 +1,4 @@
-package com.example.demo.foodOrder.logic.classes;
+package com.example.demo.foodOrder.logic;
 
 import java.util.ArrayList;
 

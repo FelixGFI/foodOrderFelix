@@ -1,8 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.foodOrder.SpeiseplanApp;
-import com.example.demo.foodOrder.logic.classes.Gericht;
-import com.example.demo.foodOrder.logic.classes.Speiseplan;
+import com.example.demo.foodOrder.logic.Gericht;
+import com.example.demo.foodOrder.logic.Speiseplan;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

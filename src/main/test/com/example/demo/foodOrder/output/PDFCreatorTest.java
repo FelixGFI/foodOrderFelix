@@ -1,8 +1,8 @@
 package com.example.demo.foodOrder.output;
 
-import com.example.demo.foodOrder.logic.classes.Gericht;
-import com.example.demo.foodOrder.logic.classes.PersonTest;
-import com.example.demo.foodOrder.logic.classes.Speiseplan;
+import com.example.demo.foodOrder.logic.Gericht;
+import com.example.demo.foodOrder.logic.PersonTest;
+import com.example.demo.foodOrder.logic.Speiseplan;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
