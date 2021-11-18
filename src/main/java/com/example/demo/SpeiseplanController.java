@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.foodOrder.SpeiseplanApp;
 import com.example.demo.foodOrder.logic.classes.Gericht;
 import com.example.demo.foodOrder.logic.classes.Speiseplan;
 import javafx.fxml.FXML;
@@ -118,7 +119,7 @@ public class SpeiseplanController {
     @FXML private TextField tfKW;
     @FXML private Label lblFehler;
 
-    static Speiseplan showDialog(Speiseplan sp) throws IOException {
+    public static Speiseplan showDialog(Speiseplan sp) throws IOException {
 
         Stage stage = new Stage();
 

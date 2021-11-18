@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.foodOrder;
 
+import com.example.demo.SpeiseplanController;
 import com.example.demo.foodOrder.logic.classes.Gericht;
 import com.example.demo.foodOrder.logic.classes.Speiseplan;
 import javafx.application.Application;
