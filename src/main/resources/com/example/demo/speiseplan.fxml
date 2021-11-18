@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.SpeiseplanController">
+   <center>
+      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fitHeight="75.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Button">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="imDinA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDinA" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDinA" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDinA" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="imMonB" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMonB" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMonB" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMonB" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="imMitA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMitA" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMitA" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMitA" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="imDinB" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDinB" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDinB" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDinB" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="imMonA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMonA" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMonA" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMonA" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label text="Montag">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Dienstag">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <children>
+                  <Label text="Mittwoch">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+               <children>
+                  <Label text="Freitag">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
+               <children>
+                  <Label text="Donnerstag">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </FlowPane>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="imDonA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDonA" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDonA" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDonA" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="imMitC" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMitC" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox onKeyTyped="#onTextFieldKeyReleased" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMitC" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMitC" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="imMonC" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMonC" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMonC" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMonC" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="imDinC" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox onKeyPressed="#onTextFieldKeyReleased" prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDinC" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDinC" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDinC" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="imFreA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameFreA" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisFreA" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btFreA" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="imMitB" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameMitB" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisMitB" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btMitB" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="imFreB" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameFreB" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisFreB" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btFreB" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="imDonB" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox onKeyTyped="#onTextFieldKeyReleased" prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDonB" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDonB" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDonB" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="imDonC" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameDonC" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisDonC" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btDonC" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="imFreC" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <HBox prefHeight="21.0" prefWidth="300.0">
+                     <children>
+                        <TextField fx:id="tfNameFreC" onKeyReleased="#onTextFieldKeyReleased">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfPreisFreC" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="65.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btFreC" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="25.0" prefWidth="73.0" text="Reset">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </center>
+   <left>
+      <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <FlowPane alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Speiseplan KW ">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfKW" onKeyReleased="#onTextFieldKeyReleased" prefHeight="25.0" prefWidth="46.0" />
+         </children></FlowPane>
+   </top>
+   <right>
+      <FlowPane prefHeight="200.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <FlowPane alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label fx:id="lblFehler" prefHeight="17.0" prefWidth="449.0">
+                     <FlowPane.margin>
+                        <Insets bottom="10.0" left="30.0" top="10.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </FlowPane>
+            <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefHeight="25.0" prefWidth="146.0" text="Abbrechen">
+               <FlowPane.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button fx:id="btBestaetigen" mnemonicParsing="false" onAction="#onBtBestaetigenClick" prefHeight="25.0" prefWidth="153.0" text="Bestätigen">
+               <FlowPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
+               </FlowPane.margin>
+            </Button>
+         </children>
+      </FlowPane>
+   </bottom>
+</BorderPane>

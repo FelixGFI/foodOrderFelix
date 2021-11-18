@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER" spacing="20">
+        <Label fx:id="zahl"/>
+        <Label fx:id="bezeichnung"/>
+    </HBox>
+
+    <HBox fx:id="eingabeBox" alignment="CENTER" spacing="20.0">
+        <TextField fx:id="zahlEingabe"/>
+        <TextField fx:id="bezeichnungEingabe"/>
+
+    </HBox>
+
+    <HBox alignment="CENTER">
+        <Button fx:id="plus" text="+" onAction="#onPlusButtonClick">
+            <HBox.margin>
+                <Insets bottom="10" left="5" right = "5" top="10"/>
+            </HBox.margin>
+        </Button>
+
+        <Button fx:id="reset" text="0" onAction="#onResetButtonClick">
+            <HBox.margin>
+                <Insets bottom="10" left="5" right = "5" top="10"/>
+            </HBox.margin>
+        </Button>
+
+        <Button fx:id="minus" text="-" onAction="#onMinusButtonClick">
+            <HBox.margin>
+                <Insets bottom="10" left="5" right = "5" top="10"/>
+            </HBox.margin>
+        </Button>
+    </HBox>
+    <Button fx:id="fertig" text="fertig" onAction="#onFertigButtonClick"/>
+</VBox>

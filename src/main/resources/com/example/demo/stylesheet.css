@@ -1,0 +1,27 @@
+.root {
+    -fx-font-size: 30px;
+    -fx-font-family: sans-serif;
+    -fx-background-color: green;
+
+}
+
+.button {
+    -fx-padding: 10px;
+    -fx-font-size: 200px;
+    -fx-background-color: teal;
+}
+.button2 {
+    -fx-text-fill: gray;
+    -fx-font-size: 50px;
+    -fx-padding: 10px;
+}
+
+.label {
+    -fx-font-size: 10px;
+    -fx-text-fill: white;
+}
+
+.label2 {
+    -fx-font-weight: bold
+}
+

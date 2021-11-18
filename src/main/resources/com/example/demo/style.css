@@ -1,0 +1,38 @@
+.root {
+   -fx-background-color: white;
+   -fx-text-fill: black;
+   -fx-font-family: Arial, SANS-SERIF;
+}
+.label, .button, .text-area {
+    -fx-text-fill: black;
+}
+.label {
+    -fx-font-weight: bold
+}
+.button {
+  -fx-background-color: lightGray;
+  -fx-border-color: gray;
+  -fx-border-radius: 15;
+  -fx-background-radius: 15;
+}
+.button:pressed {
+            -fx-background-color: gray;
+            }
+.text-field {
+  -fx-border-color: gray;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-accent: gray;
+  -fx-highlight-text-fill: white;
+}
+.text-field:focused {
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+}
+
+.text-area {
+    -fx-display-caret:true;
+}
+.text-area .content {
+    -fx-background-color: lightGray;
+}
