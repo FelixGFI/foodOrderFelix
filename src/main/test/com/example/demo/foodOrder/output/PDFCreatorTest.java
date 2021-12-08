@@ -15,9 +15,9 @@ import java.util.List;
 
 public class PDFCreatorTest {
     @Test
-void testcreateSpeiseplanPDF() throws MalformedURLException, FileNotFoundException {
+    void testcreateSpeiseplanPDF() throws MalformedURLException, FileNotFoundException {
     Speiseplan sp1 = PersonTest.erzeugeSpeiseplan();
-    Gericht g = new Gericht("Flache Flunder", 7.99, "C:\\JavaBilder\\Flunder.jpg");
+    Gericht g = new Gericht("Flache Flunder", 7.99, "src/javaBilder/Forelle.jpg");
     ArrayList<Gericht> gList = new ArrayList<>(Arrays.asList(g , sp1.getDie().get(0), sp1.getDie().get(1)));
     Speiseplan sp2 = new Speiseplan(16, sp1.getMon(), gList, sp1.getMit(), sp1.getDon(), sp1.getFre());
     Speiseplan sp3 = new Speiseplan(17, sp1.getMon(), gList, sp1.getMit(), null, sp1.getFre());

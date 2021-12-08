@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.foodOrder.gui.SpeiseplanController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.foodOrder.gui.SpeiseplanController">
    <center>
       <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -618,12 +618,17 @@
                   </Label>
                </children>
             </FlowPane>
-            <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefHeight="25.0" prefWidth="146.0" text="Abbrechen">
+            <Button fx:id="btAbbrechen" mnemonicParsing="false" onAction="#onBtAbbrechenClick" prefHeight="26.0" prefWidth="95.0" text="Abbrechen">
                <FlowPane.margin>
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </FlowPane.margin>
             </Button>
-            <Button fx:id="btBestaetigen" mnemonicParsing="false" onAction="#onBtBestaetigenClick" prefHeight="25.0" prefWidth="153.0" text="Bestätigen">
+            <Button fx:id="btLaden" mnemonicParsing="false" onAction="#onBtLadenClick" prefHeight="26.0" prefWidth="95.0" text="Laden">
+               <FlowPane.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button fx:id="btSpeichern" mnemonicParsing="false" onAction="#onBtSpeichernClick" prefHeight="26.0" prefWidth="95.0" text="Speichern">
                <FlowPane.margin>
                   <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
                </FlowPane.margin>

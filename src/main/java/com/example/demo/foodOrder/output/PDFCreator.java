@@ -58,7 +58,7 @@ public class PDFCreator {
                 if(tagesGericht.getPreis() != 0) {
                     String imageFile = (tagesGericht.getGerichtBildPath() != null) ?
                             tagesGericht.getGerichtBildPath() :
-                            "C:\\JavaBilder\\noImageAvailable.png";
+                            "src/javaBilder/noImage.jpg";
                     Cell speiseBild = createSpeiseplanCellImage(imageFile);
                     table.addCell(speiseBild);
                 } else {
@@ -94,7 +94,7 @@ public class PDFCreator {
     }
 
     private static void createUeberschriftenzeileSpeiseplan(Speiseplan speiseplan, Table table) {
-        table.addCell("KW" + speiseplan.getKw());
+        table.addCell("KW " + speiseplan.getKw());
         table.addCell("Montag");
         table.addCell("Dienstag");
         table.addCell("Mittwoch");

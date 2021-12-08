@@ -1,8 +1,9 @@
 package com.example.demo.foodOrder.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Speiseplan {
+public class Speiseplan implements Serializable {
 
     private final int kw;
     private final ArrayList<Gericht> mon;

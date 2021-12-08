@@ -49,19 +49,19 @@ public class PersonTest {
 
         Speiseplan s;
         ArrayList<Gericht> mon = new ArrayList<>(
-                Arrays.asList(new Gericht("Veganes Schnitzel", 5.0, "C:\\JavaBilder\\veganesSchnitzel.jpg"), new Gericht("Forelle", 10.0, "C:\\JavaBilder\\Forelle.jpg")));
+                Arrays.asList(new Gericht("Veganes Schnitzel", 5.0, "src/javaBilder/placeholder.jpg"), new Gericht("Forelle", 10.0, "src/javaBilder/Forelle.jpg")));
 
         ArrayList<Gericht> die = new ArrayList<>(
-                Arrays.asList(new Gericht("Wels", 15.0, "C:\\JavaBilder\\Wels.jpg"), new Gericht("Tortellini", 7.0, "C:\\JavaBilder\\Tortellini.jpg")));
+                Arrays.asList(new Gericht("Wels", 15.0, "src/javaBilder/placeholder.jpg"), new Gericht("Tortellini", 7.0, "src/javaBilder/placeholder.jpg")));
 
         ArrayList<Gericht> mit = new ArrayList<>(
-                Arrays.asList(new Gericht("Gemüsepfanne", 6.0, "C:\\JavaBilder\\Gemüsepfanne.jpg"), new Gericht("Bratkartoffeln", 7.0)));
+                Arrays.asList(new Gericht("Gemüsepfanne", 6.0, "src/javaBilder/placeholder.jpg"), new Gericht("Bratkartoffeln", 7.0)));
 
         ArrayList<Gericht> don = new ArrayList<>(
-                Arrays.asList(new Gericht("Steak", 12.0), new Gericht("Champignons", 7.0, "C:\\JavaBilder\\Champingons.jpg")));
+                Arrays.asList(new Gericht("Steak", 12.0), new Gericht("Champignons", 7.0, "src/javaBilder/placeholder.jpg")));
 
         ArrayList<Gericht> fre = new ArrayList<>(
-                Arrays.asList(new Gericht("Spaghetti", 7.0, "C:\\JavaBilder\\Spagetti.jpg"), new Gericht("Ravioli", 7.0, "C:\\JavaBilder\\Ravioli.jpg")));
+                Arrays.asList(new Gericht("Spaghetti", 7.0, "src/javaBilder/placeholder.jpg"), new Gericht("Ravioli", 7.0, "src/javaBilder/placeholder.jpg")));
 
         return new Speiseplan(15, mon, die, mit, don, fre);
     }

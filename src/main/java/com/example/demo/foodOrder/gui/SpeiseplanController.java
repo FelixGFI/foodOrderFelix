@@ -18,10 +18,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -107,17 +104,21 @@ public class SpeiseplanController {
     @FXML private Button btFreC = new Button();
 
 
+
+
     private final HashMap<Button, GerichtControlsSpeicher> zuordnung = new HashMap<>();
-    private FileChooser fileChooser = new FileChooser();
+    private FileChooser fileChooserImage;
+    private FileChooser fileChooserDat;
     private Image noImage;
     private Boolean validated = false;
     private ArrayList <Button> buttonList = new ArrayList<>();
     private Speiseplan speiseplan;
 
     @FXML private Button btAbbrechen = new Button();
-    @FXML private Button btBestaetigen = new Button();
+    @FXML private Button btSpeichern = new Button();
     @FXML private TextField tfKW;
     @FXML private Label lblFehler;
+    @FXML private Button btLaden = new Button();
 
     public static Speiseplan showDialog(Speiseplan sp) throws IOException {
 
@@ -128,7 +129,7 @@ public class SpeiseplanController {
         SpeiseplanController controller = loader.getController();
         controller.initializeFields(sp);
 
-        stage.setTitle("Speisepan Erstellen");
+        stage.setTitle("Speiseplan Erstellen");
         stage.setScene(scene);
         stage.showAndWait();
 
@@ -139,7 +140,7 @@ public class SpeiseplanController {
     public void initialize() throws IOException {
 
         //zuordnung.put(btMonA, new ArrayList<ArrayList>(Arrays.asList(new ArrayList<ImageView>(Arrays.asList(imMonA)))));
-        String noImagePath = "C:\\JavaBilder\\noImage.jpg";
+        String noImagePath = "src/javaBilder/addImage.png";
         File file = new File(noImagePath);
         FileInputStream input = new FileInputStream(file);
         noImage = new Image(input);
@@ -177,6 +178,36 @@ public class SpeiseplanController {
         tfKW.setPromptText("KW");
     }
 
+    @FXML void onBtLadenClick() throws FileNotFoundException {
+        if (this.fileChooserDat == null) {
+            fileChooserDat = new FileChooser();
+            File defaultPath = new File("src/generated");
+            fileChooserDat.setInitialDirectory(defaultPath);
+            fileChooserDat.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Dat Files", "*.dat")
+            );
+        }
+
+        Stage stage = (Stage) btLaden.getScene().getWindow();
+
+        File file = fileChooserDat.showOpenDialog(stage);
+
+        fileChooserDat.setInitialDirectory(new File(file.getParent()));
+
+        try {
+            FileInputStream fis = new FileInputStream(file.getPath());
+            ObjectInputStream in = new ObjectInputStream(fis);
+            this.speiseplan = (Speiseplan) in.readObject();
+            in.close();
+            fis.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        initializeFields(speiseplan);
+
+    }
 
     void initializeFields(Speiseplan sp) {
 
@@ -222,12 +253,37 @@ public class SpeiseplanController {
             addAllGerichteToTag(donList, donFXMLList);
             addAllGerichteToTag(freList, freFXMLList);
 
+            try{
+                tfKW.setText(Integer.toString(speiseplan.getKw()));
+            } catch (Exception e) {
+
+            }
+
         }
 
 
     }
 
     private void addAllGerichteToTag(ArrayList<Gericht> gerichtList, ArrayList<GerichtControlsSpeicher> fxmlList) {
+        /**
+         * Alle Felder Leeren
+         */
+        fxmlList.get(0).getTfName().setText("");
+        fxmlList.get(0).getTfPreis().setText("");
+        fxmlList.get(0).getIm().setImage(noImage);
+
+        fxmlList.get(1).getTfName().setText("");
+        fxmlList.get(1).getTfPreis().setText("");
+        fxmlList.get(1).getIm().setImage(noImage);
+
+        fxmlList.get(2).getTfName().setText("");
+        fxmlList.get(2).getTfPreis().setText("");
+        fxmlList.get(2).getIm().setImage(noImage);
+
+        /**
+         * Wenn Daten für diese Vorhanden sind, Felder mit diesen Ausfüllen
+         */
+
         if(gerichtList != null) {
             fxmlList.get(0).getTfName().setText(gerichtList.get(0).getBezeichnung());
             fxmlList.get(0).getTfPreis().setText(String.valueOf(gerichtList.get(0).getPreis()));
@@ -235,14 +291,14 @@ public class SpeiseplanController {
                 setImage(gerichtList.get(0), fxmlList.get(0));
             }
             if(gerichtList.size() >= 2) {
-                tfNameMonB.setText(gerichtList.get(1).getBezeichnung());
-                tfPreisMonB.setText(String.valueOf(gerichtList.get(1).getPreis()));
+                fxmlList.get(1).getTfName().setText(gerichtList.get(1).getBezeichnung());
+                fxmlList.get(1).getTfPreis().setText(String.valueOf(gerichtList.get(1).getPreis()));
                 if(gerichtList.get(1).getGerichtBildPath() != null) {
                     setImage(gerichtList.get(1), fxmlList.get(1));
                 }
                 if(gerichtList.size() >= 3) {
-                    tfNameMonC.setText(gerichtList.get(2).getBezeichnung());
-                    tfPreisMonC.setText(String.valueOf(gerichtList.get(2).getPreis()));
+                    fxmlList.get(2).getTfName().setText(gerichtList.get(2).getBezeichnung());
+                    fxmlList.get(2).getTfPreis().setText(String.valueOf(gerichtList.get(2).getPreis()));
                     if(gerichtList.get(2).getGerichtBildPath() != null) {
                         setImage(gerichtList.get(2), fxmlList.get(2));
                     }
@@ -295,10 +351,11 @@ public class SpeiseplanController {
 
     @FXML
     protected void onImageClick(MouseEvent event) throws FileNotFoundException {
-        if (this.fileChooser == null) {
-            File defaultPath = new File("C:\\JavaBilder");
-            fileChooser.setInitialDirectory(defaultPath);
-            fileChooser.getExtensionFilters().addAll(
+        if (this.fileChooserImage == null) {
+            fileChooserImage = new FileChooser();
+            File defaultPath = new File("src/javaBilder");
+            fileChooserImage.setInitialDirectory(defaultPath);
+            fileChooserImage.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("Media Files", "*.png", "*.jpg")
             );
         }
@@ -307,9 +364,9 @@ public class SpeiseplanController {
 
         ImageView im = (ImageView) event.getSource();
         System.out.println(im);
-        File file = fileChooser.showOpenDialog(stage);
+        File file = fileChooserImage.showOpenDialog(stage);
         FileInputStream input = new FileInputStream(file);
-        fileChooser.setInitialDirectory(new File(file.getParent()));
+        fileChooserImage.setInitialDirectory(new File(file.getParent()));
         Image image = new Image(input);
         im.setImage(image);
 
@@ -330,7 +387,7 @@ public class SpeiseplanController {
     }
 
     @FXML
-    protected void onBtBestaetigenClick() {
+    protected void onBtSpeichernClick() throws IOException {
 
         ValidierungsDaten validierungsDaten = validieren();
 
@@ -407,15 +464,45 @@ public class SpeiseplanController {
                 freList = null;
             }
 
-            speiseplan = new Speiseplan(kw, monList, dieList, mitList, donList, freList);
+            this.speiseplan = new Speiseplan(kw, monList, dieList, mitList, donList, freList);
 
-            Stage stage = (Stage) btBestaetigen.getScene().getWindow();
+            Stage stage = (Stage) btSpeichern.getScene().getWindow();
             stage.close();
             //evtl create PDF out of Speiseplan
         } else {
             validierungsDaten.getFocusedFehler().requestFocus();
         }
 
+        speichern(this.speiseplan);
+
+
+    }
+
+    private void speichern(Speiseplan sp) throws IOException {
+        if (this.fileChooserDat == null) {
+            fileChooserDat = new FileChooser();
+            File defaultPath = new File("src/generated");
+            fileChooserDat.setInitialDirectory(defaultPath);
+            fileChooserDat.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Dat Files", "*.dat")
+            );
+        }
+        Stage stage = (Stage) btLaden.getScene().getWindow();
+
+        File file = fileChooserDat.showSaveDialog(stage);
+        System.out.println(file.createNewFile());
+        fileChooserDat.setInitialDirectory(new File(file.getParent()));
+
+        System.out.println(file.getPath());
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(sp);
+            out.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     protected ValidierungsDaten validieren() {
@@ -424,11 +511,22 @@ public class SpeiseplanController {
         Paint farbeGelb = Paint.valueOf("yellow");
         Paint farbeGruen = Paint.valueOf("lightGreen");
 
+        int anzahlFehler = 0;
+
+        /**
+         * Validierung der Kalenderwoche
+         */
         tfKW.setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
 
+        int kw;
+
         try {
-            Integer.valueOf(tfKW.getText().trim());
+            kw = Integer.valueOf(tfKW.getText().trim());
         } catch (Exception exception) {
+            kw = -1;
+        }
+        if(kw <= 0 || kw > 53) {
+            anzahlFehler++;
             if(firstFehlerField == null) {
                 firstFehlerField = tfKW;
                 fehlerCode = 0;
@@ -437,6 +535,10 @@ public class SpeiseplanController {
             }
             tfKW.setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
         }
+
+        /**
+         * Validierung der mehrfach Vorhandenen Felder (Gericht Bezeichnung, Preis)
+         */
 
         for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
 
@@ -451,12 +553,15 @@ public class SpeiseplanController {
             boolean preisVorhanden = !preisGerichtAsText.equals("");
             boolean nameVorhanden = !nameGericht.equals("");
 
-
+            /**
+             * Validierung des Preis Feldes
+             */
 
             if(preisVorhanden) {
                 try {
                     Double.valueOf(preisGerichtAsText);
                 } catch (Exception exception) {
+                    anzahlFehler++;
                     if(firstFehlerField == null) {
                         firstFehlerField = gericht.getTfPreis();
                         fehlerCode = 2; // Fehlerhafter Preis
@@ -468,7 +573,34 @@ public class SpeiseplanController {
                 }
             }
 
+            /**
+             * Validuerung des Bezeichung Feldes
+             */
+
+            if(nameVorhanden) {
+                try {
+                    Double.valueOf(nameGericht);
+                    anzahlFehler++;
+                    if(firstFehlerField == null) {
+                        firstFehlerField = gericht.getTfName();
+                        fehlerCode = 4; // Fehlerhafte Bezeichnung
+                    } else if(fehlerCode == 1 || fehlerCode == 0 || fehlerCode == 2) {
+                        fehlerCode = 3; // Mehrer Unterschiedliche Fehler
+                    }
+
+                    gericht.getTfName().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
+                } catch (Exception exception) {
+
+                }
+            }
+
+            /**
+             * Validierung ob zu jedem eingegebenen Preis auch eine Bezeichung eingegeben wurde,
+             * bzw. zu jeder eingegebenen Bezeichung auch ein Preis eingegeben wurde.
+             */
+
             if(preisVorhanden && !nameVorhanden) {
+                anzahlFehler++;
                 if(firstFehlerField == null) {
                     firstFehlerField = gericht.getTfName();
                     fehlerCode = 1; // Fehlendes Feld
@@ -479,6 +611,7 @@ public class SpeiseplanController {
             }
 
             if(!preisVorhanden && nameVorhanden) {
+                anzahlFehler++;
                 if(firstFehlerField == null) {
                     firstFehlerField = gericht.getTfPreis();
                     fehlerCode = 1; // Fehlendes Feld
@@ -492,15 +625,17 @@ public class SpeiseplanController {
         validated = true;
 
         if (fehlerCode == 0) {
-            lblFehler.setText("Kalender Woche ist Ungültig");
+            lblFehler.setText("Kalenderwoche ist ungültig.");
         } else if(fehlerCode == 2) {
-            lblFehler.setText("Preiseingaben sind Ungültig");
+            lblFehler.setText("Preiseingaben sind ungültig: " + anzahlFehler);
+        } else if(fehlerCode == 4) {
+            lblFehler.setText("Bezeichnungen sind ungültig: " + anzahlFehler);
         } else if(fehlerCode == 1) {
-            lblFehler.setText("Manche Gerichte sind nur Teilweise Ausgefüllt");
+            lblFehler.setText("Gerichte sind unvollständig ausgefüllt: " + anzahlFehler);
         } else if(fehlerCode == 3) {
-            lblFehler.setText("Eingaben sind fehlerhaft und/oder unvollständig");
+            lblFehler.setText("Eingaben sind fehlerhaft und/oder unvollständig: " + anzahlFehler);
         } else {
-            lblFehler.setText("Eingabe Erfolgreich Validiert");
+            lblFehler.setText("Eingabe erfolgreich validiert!");
         }
 
         if(fehlerCode == -1) {

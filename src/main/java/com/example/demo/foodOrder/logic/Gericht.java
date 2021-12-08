@@ -1,8 +1,9 @@
 package com.example.demo.foodOrder.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Gericht {
+public class Gericht implements Serializable {
 
     private final String bezeichnung;
     private final double preis;
