@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Gericht implements Serializable {
 
+    final static long serialVersionUID = 100;
+
     private final String bezeichnung;
     private final double preis;
     private int bestellteMenge;

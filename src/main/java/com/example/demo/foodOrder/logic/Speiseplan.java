@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Speiseplan implements Serializable {
 
+    final static long serialVersionUID = 1;
+
     private final int kw;
     private final ArrayList<Gericht> mon;
     private final ArrayList<Gericht> die;

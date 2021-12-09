@@ -17,24 +17,8 @@ public class SpeiseplanApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
         Speiseplan sp = new Speiseplan(-1, null, null, null, null, null);
-
         sp = SpeiseplanController.showDialog(sp);
-
-        String pdfName = "speiseplanAusGui";
-
-        PDFCreator.createSpeiseplanPDF(sp, pdfName);
-
-
-        /**
-         * somehow opens PDF in Browser
-         */
-        String pathPDF = "src/generated/" + pdfName + ".pdf";
-        File file = new File(pathPDF);
-        if (file.toString().endsWith(".pdf")) {
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
-        }
     }
 
     public static void main(String[] args) {

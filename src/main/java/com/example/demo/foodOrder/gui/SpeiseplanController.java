@@ -3,12 +3,12 @@ package com.example.demo.foodOrder.gui;
 import com.example.demo.foodOrder.SpeiseplanApp;
 import com.example.demo.foodOrder.logic.Gericht;
 import com.example.demo.foodOrder.logic.Speiseplan;
+import com.example.demo.foodOrder.output.PDFCreator;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -19,10 +19,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.util.*;
 
 public class SpeiseplanController {
 
@@ -253,11 +251,16 @@ public class SpeiseplanController {
             addAllGerichteToTag(donList, donFXMLList);
             addAllGerichteToTag(freList, freFXMLList);
 
-            try{
-                tfKW.setText(Integer.toString(speiseplan.getKw()));
-            } catch (Exception e) {
+            if(speiseplan.getKw() > 0 && speiseplan.getKw() <= 53) {
+                try{
+                    tfKW.setText(Integer.toString(speiseplan.getKw()));
+                } catch (Exception e) {
 
+                }
+            } else {
+                tfKW.setText("");
             }
+
 
         }
 
@@ -268,40 +271,26 @@ public class SpeiseplanController {
         /**
          * Alle Felder Leeren
          */
-        fxmlList.get(0).getTfName().setText("");
-        fxmlList.get(0).getTfPreis().setText("");
-        fxmlList.get(0).getIm().setImage(noImage);
 
-        fxmlList.get(1).getTfName().setText("");
-        fxmlList.get(1).getTfPreis().setText("");
-        fxmlList.get(1).getIm().setImage(noImage);
-
-        fxmlList.get(2).getTfName().setText("");
-        fxmlList.get(2).getTfPreis().setText("");
-        fxmlList.get(2).getIm().setImage(noImage);
+        for (int i = 0; i < 3; i++) {
+            fxmlList.get(i).getTfName().setText("");
+            fxmlList.get(i).getTfPreis().setText("");
+            fxmlList.get(i).getIm().setImage(noImage);
+        }
 
         /**
          * Wenn Daten für diese Vorhanden sind, Felder mit diesen Ausfüllen
          */
 
         if(gerichtList != null) {
-            fxmlList.get(0).getTfName().setText(gerichtList.get(0).getBezeichnung());
-            fxmlList.get(0).getTfPreis().setText(String.valueOf(gerichtList.get(0).getPreis()));
-            if(gerichtList.get(0).getGerichtBildPath() != null) {
-                setImage(gerichtList.get(0), fxmlList.get(0));
-            }
-            if(gerichtList.size() >= 2) {
-                fxmlList.get(1).getTfName().setText(gerichtList.get(1).getBezeichnung());
-                fxmlList.get(1).getTfPreis().setText(String.valueOf(gerichtList.get(1).getPreis()));
-                if(gerichtList.get(1).getGerichtBildPath() != null) {
-                    setImage(gerichtList.get(1), fxmlList.get(1));
-                }
-                if(gerichtList.size() >= 3) {
-                    fxmlList.get(2).getTfName().setText(gerichtList.get(2).getBezeichnung());
-                    fxmlList.get(2).getTfPreis().setText(String.valueOf(gerichtList.get(2).getPreis()));
-                    if(gerichtList.get(2).getGerichtBildPath() != null) {
-                        setImage(gerichtList.get(2), fxmlList.get(2));
-                    }
+
+            for (int i = 0; i < gerichtList.size(); i++) {
+
+                fxmlList.get(i).getTfName().setText(gerichtList.get(i).getBezeichnung());
+                fxmlList.get(i).getTfPreis().setText(String.valueOf(gerichtList.get(i).getPreis()));
+                if(gerichtList.get(i).getGerichtBildPath() != null) {
+                    setImage(gerichtList.get(i), fxmlList.get(i));
+
                 }
             }
         }
@@ -332,23 +321,6 @@ public class SpeiseplanController {
         }
     }
 
-    /*@FXML
-    protected void onBildButtonClick() throws FileNotFoundException {
-        Stage stage = (Stage) btMonA.getScene().getWindow();
-
-        Button b = (Button) stage.getScene().getFocusOwner();
-        ImageView im = zuordnung.get(b).getIm();
-
-        if(im.getImage() == null || im.getImage() == this.noImage) {
-            File file = fileChooser.showOpenDialog(stage);
-            FileInputStream input = new FileInputStream(file);
-            Image image = new Image(input);
-            im.setImage(image);
-        } else {
-            im.setImage(this.noImage);
-        }
-    }*/
-
     @FXML
     protected void onImageClick(MouseEvent event) throws FileNotFoundException {
         if (this.fileChooserImage == null) {
@@ -363,7 +335,6 @@ public class SpeiseplanController {
         Stage stage = (Stage) btMonA.getScene().getWindow();
 
         ImageView im = (ImageView) event.getSource();
-        System.out.println(im);
         File file = fileChooserImage.showOpenDialog(stage);
         FileInputStream input = new FileInputStream(file);
         fileChooserImage.setInitialDirectory(new File(file.getParent()));
@@ -404,7 +375,6 @@ public class SpeiseplanController {
             if(!tfKW.getText().equals("")){
                 try {
                     kw = Integer.parseInt(tfKW.getText().trim());
-                    System.out.println("KW " + kw);
                 } catch (Exception exception) {
                     kw = -1;
                     System.out.println("Unvorhergesehener Fehler mit der eingegebenen Kalenderwoche. Kalenderwoche wurde auf -1 gesetzt");
@@ -418,32 +388,24 @@ public class SpeiseplanController {
                     double preis = -1;
                     try {
                         preis = Double.parseDouble(gerichteSpeicher.getTfPreis().getText().replace(',', '.'));
-                        System.out.println("reached");
                     } catch (Exception exception) {
                         System.out.println("Unvorhergesehener Fehler mit dem angegebenen Preis. Preis wurde auf -1 gesetzt");
                     }
                     Gericht gericht = new Gericht(name, preis, null);
-                    System.out.print(gerichteSpeicher.getTfName().getText() + ", " + preis);
 
                     if(gerichteSpeicher.getIm().getImage() != this.noImage) {
                         gericht.setGerichtBildPath(gerichteSpeicher.getImPath());
-                        System.out.print(", hat Bild");
                     }
                     if(gerichteSpeicher.getTag().equals("Mon")) {
                         monList.add(gericht);
-                        System.out.println(", Mon");
                     } else if(gerichteSpeicher.getTag().equals("Die")) {
                         dieList.add(gericht);
-                        System.out.println(", Die");
                     } else if(gerichteSpeicher.getTag().equals("Mit")) {
                         mitList.add(gericht);
-                        System.out.println(", Mit");
                     } else if(gerichteSpeicher.getTag().equals("Don")) {
                         donList.add(gericht);
-                        System.out.println(", Don");
                     } else if(gerichteSpeicher.getTag().equals("Fre")) {
                         freList.add(gericht);
-                        System.out.println(", Fre");
                     }
                 }
             }
@@ -466,19 +428,66 @@ public class SpeiseplanController {
 
             this.speiseplan = new Speiseplan(kw, monList, dieList, mitList, donList, freList);
 
-            Stage stage = (Stage) btSpeichern.getScene().getWindow();
-            stage.close();
-            //evtl create PDF out of Speiseplan
+            speichernSpeiseplanDat(this.speiseplan);
+
+            abfragePDFSpeichern(speiseplan);
         } else {
             validierungsDaten.getFocusedFehler().requestFocus();
         }
 
-        speichern(this.speiseplan);
 
 
     }
 
-    private void speichern(Speiseplan sp) throws IOException {
+    private void abfragePDFSpeichern(Speiseplan sp) throws IOException {
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setHeaderText("PDF Erstellen?");
+        a.setContentText("Möchten Sie den Speiseplan auch als PDF Speichern?");
+
+        ButtonType ja = new ButtonType("Ja");
+        ButtonType nein = new ButtonType("Nein");
+
+        a.getButtonTypes().clear();
+        a.getButtonTypes().add(ja);
+        a.getButtonTypes().add(nein);
+
+        Optional<ButtonType> option = a.showAndWait();
+
+        if(option.get() == ja) {
+            speichernSpeiseplanPDF(sp);
+        }
+
+        Stage stage = (Stage) btSpeichern.getScene().getWindow();
+        stage.close();
+        //evtl create PDF out of Speiseplan
+    }
+
+    private void speichernSpeiseplanPDF(Speiseplan sp) throws IOException {
+
+        FileChooser fileChooserPDF = new FileChooser();
+        File defaultPath = new File("src/generated");
+        fileChooserPDF.setInitialDirectory(defaultPath);
+        fileChooserPDF.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+        Stage stage = (Stage) btLaden.getScene().getWindow();
+
+        File file = fileChooserPDF.showSaveDialog(stage);
+        file.createNewFile();
+        fileChooserPDF.setInitialDirectory(new File(file.getParent()));
+
+        PDFCreator.createSpeiseplanPDF(sp, file);
+
+        /**
+         * somehow opens PDF in Browser
+         */
+
+        if (file.toString().endsWith(".pdf")) {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+        }
+    }
+
+    private void speichernSpeiseplanDat(Speiseplan sp) throws IOException {
         if (this.fileChooserDat == null) {
             fileChooserDat = new FileChooser();
             File defaultPath = new File("src/generated");
@@ -490,16 +499,15 @@ public class SpeiseplanController {
         Stage stage = (Stage) btLaden.getScene().getWindow();
 
         File file = fileChooserDat.showSaveDialog(stage);
-        System.out.println(file.createNewFile());
+        file.createNewFile();
         fileChooserDat.setInitialDirectory(new File(file.getParent()));
-
-        System.out.println(file.getPath());
 
         try {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fos);
             out.writeObject(sp);
             out.close();
+            fos.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

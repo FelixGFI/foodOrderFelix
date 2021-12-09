@@ -17,17 +17,20 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class PDFCreator {
 
-
-
     public static void createSpeiseplanPDF(Speiseplan speiseplan, String dokumentName) throws FileNotFoundException, MalformedURLException {
-        // Creating a PdfWriter
         String dest = "src/generated/" + dokumentName +".pdf";
+        internalCreateSpeiseplanPDF(speiseplan, dest);
+    }
+
+    private static void internalCreateSpeiseplanPDF(Speiseplan speiseplan, String dest) throws FileNotFoundException, MalformedURLException {
+        // Creating a PdfWriter
         PdfWriter writer = new PdfWriter(dest);
 
         // Creating a PdfDocument
@@ -81,17 +84,17 @@ public class PDFCreator {
         }
 
 
-
-
-
         // Adding Table to the document
         document.add(table);
 
         // Closing the document
         document.close();
         System.out.println("PDF Created");
-
     }
+
+    public static void createSpeiseplanPDF(Speiseplan speiseplan, File f) throws FileNotFoundException, MalformedURLException {
+        internalCreateSpeiseplanPDF(speiseplan, f.getPath());
+        }
 
     private static void createUeberschriftenzeileSpeiseplan(Speiseplan speiseplan, Table table) {
         table.addCell("KW " + speiseplan.getKw());
