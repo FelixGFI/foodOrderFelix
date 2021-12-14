@@ -4,6 +4,7 @@ import com.example.demo.foodOrder.logic.Gericht;
 import com.example.demo.foodOrder.logic.Speiseplan;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -17,9 +18,14 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class PDFCreator {
@@ -27,6 +33,10 @@ public class PDFCreator {
     public static void createSpeiseplanPDF(Speiseplan speiseplan, String dokumentName) throws FileNotFoundException, MalformedURLException {
         String dest = "src/generated/" + dokumentName +".pdf";
         internalCreateSpeiseplanPDF(speiseplan, dest);
+    }
+
+    public static void createSpeiseplanPDF(Speiseplan speiseplan, File f) throws FileNotFoundException, MalformedURLException {
+        internalCreateSpeiseplanPDF(speiseplan, f.getPath());
     }
 
     private static void internalCreateSpeiseplanPDF(Speiseplan speiseplan, String dest) throws FileNotFoundException, MalformedURLException {
@@ -92,10 +102,6 @@ public class PDFCreator {
         System.out.println("PDF Created");
     }
 
-    public static void createSpeiseplanPDF(Speiseplan speiseplan, File f) throws FileNotFoundException, MalformedURLException {
-        internalCreateSpeiseplanPDF(speiseplan, f.getPath());
-        }
-
     private static void createUeberschriftenzeileSpeiseplan(Speiseplan speiseplan, Table table) {
         table.addCell("KW " + speiseplan.getKw());
         table.addCell("Montag");
@@ -106,13 +112,48 @@ public class PDFCreator {
     }
 
     private static Cell createSpeiseplanCellImage(String imageFile) throws MalformedURLException {
-        ImageData data = ImageDataFactory.create(imageFile);
-        Image img = new Image(data);
-        Cell speise = new Cell();
-        img.setHorizontalAlignment(HorizontalAlignment.CENTER);
-        speise.setVerticalAlignment(VerticalAlignment.MIDDLE);
-        speise.add(img.scaleToFit(120F, 120F));
-        return speise;
+        try{
+            java.awt.Image awtImage = ImageIO.read(new URL("file:" + imageFile));
+
+            double scaledWidth = 120F;
+            double scaledHeight = awtImage.getHeight(null) / (awtImage.getWidth(null) / scaledWidth);
+
+            BufferedImage scaledAwtImage = new BufferedImage((int) scaledWidth, (int) scaledHeight, BufferedImage.TYPE_INT_RGB);
+
+            Graphics2D g = scaledAwtImage.createGraphics();
+            g.drawImage(awtImage, 0, 0, (int) scaledWidth, (int) scaledHeight, null);
+            g.dispose();
+
+            com.itextpdf.io.source.ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            ImageIO.write(scaledAwtImage, "jpeg", bout);
+            byte[] imageBytes = bout.toByteArray();
+
+            ImageData data = ImageDataFactory.create(imageBytes);
+
+            Image img = new Image(data);
+            Cell speise = new Cell();
+            img.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            speise.setVerticalAlignment(VerticalAlignment.MIDDLE);
+            speise.add(img.scaleToFit(120F, 120F));
+
+            System.out.println(0);
+
+            return speise;
+        } catch (IOException e) {
+
+            //Below is my own code that i acctually understand. above is the code mostly imported and adjusted from Herrn Oppitz
+
+            ImageData data = ImageDataFactory.create(imageFile);
+            Image img = new Image(data);
+            Cell speise = new Cell();
+            img.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            speise.setVerticalAlignment(VerticalAlignment.MIDDLE);
+            speise.add(img.scaleToFit(120F, 120F));
+
+            System.out.println(1);
+
+            return speise;
+        }
     }
 
     private static Cell createSpeiseplanCellText(String bezeichnung, Double preis) {

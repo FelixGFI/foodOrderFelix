@@ -154,6 +154,12 @@ public class SpeiseplanController {
         return controller.speiseplan;
     }
 
+    /**
+     * initialisiert den String noImagePath, welcher der Pfad zu dem Bild ist angeeziegt wird wenn (noch) kein bild vorhanden ist.
+     * füllt die ArrayList<Button> buttonListaller FXML Button Elemente buttonList
+     * Initializiert
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
 
