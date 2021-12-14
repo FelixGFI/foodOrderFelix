@@ -4,7 +4,7 @@ import com.example.demo.foodOrder.SpeiseplanApp;
 import com.example.demo.foodOrder.logic.Gericht;
 import com.example.demo.foodOrder.logic.Speiseplan;
 import com.example.demo.foodOrder.output.PDFCreator;
-import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,9 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.*;
 
 public class SpeiseplanController {
@@ -129,7 +129,27 @@ public class SpeiseplanController {
 
         stage.setTitle("Speiseplan Erstellen");
         stage.setScene(scene);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+
+                if(controller.mindestensEineEingabeVorhanden()) {
+                    Alert a = controller.createWarningAlertBeforeCloseWindow();
+
+                    Optional<ButtonType> option = a.showAndWait();
+
+                    if(option.get() == a.getButtonTypes().get(0)) {
+                        stage.close();
+                    } else if(option.get() == a.getButtonTypes().get(1)) {
+                        we.consume();
+                    }
+                }
+
+            }
+        });
+
         stage.showAndWait();
+
 
         return controller.speiseplan;
     }
@@ -342,9 +362,9 @@ public class SpeiseplanController {
         im.setImage(image);
 
         for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
-            GerichtControlsSpeicher gerichtSpeicher = set.getValue();
-            if(gerichtSpeicher.getIm() == im) {
-                zuordnung.get(gerichtSpeicher.getBt()).setImPath(file.getPath());
+            GerichtControlsSpeicher gerichtControlsSpeicher = set.getValue();
+            if(gerichtControlsSpeicher.getIm() == im) {
+                zuordnung.get(gerichtControlsSpeicher.getBt()).setImPath(file.getPath());
                 break;
             }
         }
@@ -353,8 +373,63 @@ public class SpeiseplanController {
 
     @FXML
     protected void onBtAbbrechenClick() {
+
         Stage stage = (Stage) btAbbrechen.getScene().getWindow();
-        stage.close();
+
+        if(mindestensEineEingabeVorhanden()) {
+            Alert a = createWarningAlertBeforeCloseWindow();
+
+            Optional<ButtonType> option = a.showAndWait();
+
+            if(option.get() == a.getButtonTypes().get(0)) {
+
+                stage.close();
+            }
+        } else {
+            stage.close();
+        }
+    }
+
+    private Alert createWarningAlertBeforeCloseWindow() {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setHeaderText("Möchten Sie die Speiseplanerstellung wirklich abbrechen?");
+        a.setContentText("Alle ungespeicherten Daten werden verworfen");
+
+        ButtonType ja = new ButtonType("Ja");
+        ButtonType nein = new ButtonType("Nein");
+
+        a.getButtonTypes().clear();
+        a.getButtonTypes().add(ja);
+        a.getButtonTypes().add(nein);
+
+        Button jaButton = (Button) a.getDialogPane().lookupButton( ja );
+        jaButton.setDefaultButton( false );
+
+        //Activate Defaultbehavior for no-Button:
+        Button neinButton = (Button) a.getDialogPane().lookupButton( nein );
+        neinButton.setDefaultButton( true );
+        return a;
+    }
+
+    protected boolean mindestensEineEingabeVorhanden() {
+        boolean eingabeVorhanden = false;
+
+        if(!this.tfKW.getText().equals("")) {
+            eingabeVorhanden = true;
+        }
+
+        if(!eingabeVorhanden) {
+            for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
+                GerichtControlsSpeicher gerichtControlsSpeicher = set.getValue();
+                if(!gerichtControlsSpeicher.getTfName().getText().equals("") ||
+                        !gerichtControlsSpeicher.getTfPreis().getText().equals("")) {
+                    eingabeVorhanden = true;
+                    break;
+                }
+            }
+        }
+
+        return eingabeVorhanden;
     }
 
     @FXML
@@ -381,30 +456,30 @@ public class SpeiseplanController {
                 }
             }
             for(Button b : buttonList) {
-                GerichtControlsSpeicher gerichteSpeicher = zuordnung.get(b);
+                GerichtControlsSpeicher gerichtControlsSpeicher = zuordnung.get(b);
 
-                if(!gerichteSpeicher.getTfName().getText().equals("") && !gerichteSpeicher.getTfPreis().getText().equals("")) {
-                    String name = gerichteSpeicher.getTfName().getText();
+                if(!gerichtControlsSpeicher.getTfName().getText().equals("") && !gerichtControlsSpeicher.getTfPreis().getText().equals("")) {
+                    String name = gerichtControlsSpeicher.getTfName().getText();
                     double preis = -1;
                     try {
-                        preis = Double.parseDouble(gerichteSpeicher.getTfPreis().getText().replace(',', '.'));
+                        preis = Double.parseDouble(gerichtControlsSpeicher.getTfPreis().getText().replace(',', '.'));
                     } catch (Exception exception) {
                         System.out.println("Unvorhergesehener Fehler mit dem angegebenen Preis. Preis wurde auf -1 gesetzt");
                     }
                     Gericht gericht = new Gericht(name, preis, null);
 
-                    if(gerichteSpeicher.getIm().getImage() != this.noImage) {
-                        gericht.setGerichtBildPath(gerichteSpeicher.getImPath());
+                    if(gerichtControlsSpeicher.getIm().getImage() != this.noImage) {
+                        gericht.setGerichtBildPath(gerichtControlsSpeicher.getImPath());
                     }
-                    if(gerichteSpeicher.getTag().equals("Mon")) {
+                    if(gerichtControlsSpeicher.getTag().equals("Mon")) {
                         monList.add(gericht);
-                    } else if(gerichteSpeicher.getTag().equals("Die")) {
+                    } else if(gerichtControlsSpeicher.getTag().equals("Die")) {
                         dieList.add(gericht);
-                    } else if(gerichteSpeicher.getTag().equals("Mit")) {
+                    } else if(gerichtControlsSpeicher.getTag().equals("Mit")) {
                         mitList.add(gericht);
-                    } else if(gerichteSpeicher.getTag().equals("Don")) {
+                    } else if(gerichtControlsSpeicher.getTag().equals("Don")) {
                         donList.add(gericht);
-                    } else if(gerichteSpeicher.getTag().equals("Fre")) {
+                    } else if(gerichtControlsSpeicher.getTag().equals("Fre")) {
                         freList.add(gericht);
                     }
                 }
@@ -441,8 +516,10 @@ public class SpeiseplanController {
 
     private void abfragePDFSpeichern(Speiseplan sp) throws IOException {
         Alert a = new Alert(Alert.AlertType.NONE);
-        a.setHeaderText("PDF Erstellen?");
+        a.setTitle("PDF Erstellen");
+        a.setHeaderText("Erstellen eines Speiseplan PDFs");
         a.setContentText("Möchten Sie den Speiseplan auch als PDF Speichern?");
+
 
         ButtonType ja = new ButtonType("Ja");
         ButtonType nein = new ButtonType("Nein");
@@ -459,7 +536,6 @@ public class SpeiseplanController {
 
         Stage stage = (Stage) btSpeichern.getScene().getWindow();
         stage.close();
-        //evtl create PDF out of Speiseplan
     }
 
     private void speichernSpeiseplanPDF(Speiseplan sp) throws IOException {
@@ -550,13 +626,13 @@ public class SpeiseplanController {
 
         for (Map.Entry<Button, GerichtControlsSpeicher> set : zuordnung.entrySet()) {
 
-            GerichtControlsSpeicher gericht = set.getValue();
+            GerichtControlsSpeicher gerichtControlsSpeicher = set.getValue();
 
-            gericht.getTfName().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
-            gericht.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
+            gerichtControlsSpeicher.getTfName().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
+            gerichtControlsSpeicher.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGruen.toString().substring(2));
 
-            String preisGerichtAsText = gericht.getTfPreis().getText().trim().replace(',', '.');
-            String nameGericht = gericht.getTfName().getText().trim();
+            String preisGerichtAsText = gerichtControlsSpeicher.getTfPreis().getText().trim().replace(',', '.');
+            String nameGericht = gerichtControlsSpeicher.getTfName().getText().trim();
 
             boolean preisVorhanden = !preisGerichtAsText.equals("");
             boolean nameVorhanden = !nameGericht.equals("");
@@ -571,13 +647,13 @@ public class SpeiseplanController {
                 } catch (Exception exception) {
                     anzahlFehler++;
                     if(firstFehlerField == null) {
-                        firstFehlerField = gericht.getTfPreis();
+                        firstFehlerField = gerichtControlsSpeicher.getTfPreis();
                         fehlerCode = 2; // Fehlerhafter Preis
                     } else if(fehlerCode == 1 || fehlerCode == 0) {
                         fehlerCode = 3; // Mehrer Unterschiedliche Fehler
                     }
 
-                    gericht.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
+                    gerichtControlsSpeicher.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
                 }
             }
 
@@ -590,13 +666,13 @@ public class SpeiseplanController {
                     Double.valueOf(nameGericht);
                     anzahlFehler++;
                     if(firstFehlerField == null) {
-                        firstFehlerField = gericht.getTfName();
+                        firstFehlerField = gerichtControlsSpeicher.getTfName();
                         fehlerCode = 4; // Fehlerhafte Bezeichnung
                     } else if(fehlerCode == 1 || fehlerCode == 0 || fehlerCode == 2) {
                         fehlerCode = 3; // Mehrer Unterschiedliche Fehler
                     }
 
-                    gericht.getTfName().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
+                    gerichtControlsSpeicher.getTfName().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
                 } catch (Exception exception) {
 
                 }
@@ -610,23 +686,23 @@ public class SpeiseplanController {
             if(preisVorhanden && !nameVorhanden) {
                 anzahlFehler++;
                 if(firstFehlerField == null) {
-                    firstFehlerField = gericht.getTfName();
+                    firstFehlerField = gerichtControlsSpeicher.getTfName();
                     fehlerCode = 1; // Fehlendes Feld
                 } else if(fehlerCode == 2 || fehlerCode == 0) {
                     fehlerCode = 3; // Mehrer Unterschiedliche Fehler
                 }
-                gericht.getTfName().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
+                gerichtControlsSpeicher.getTfName().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
             }
 
             if(!preisVorhanden && nameVorhanden) {
                 anzahlFehler++;
                 if(firstFehlerField == null) {
-                    firstFehlerField = gericht.getTfPreis();
+                    firstFehlerField = gerichtControlsSpeicher.getTfPreis();
                     fehlerCode = 1; // Fehlendes Feld
                 } else if(fehlerCode == 2 || fehlerCode == 0) {
                     fehlerCode = 3; // Mehrer Unterschiedliche Fehler
                 }
-                gericht.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
+                gerichtControlsSpeicher.getTfPreis().setStyle("-fx-control-inner-background: #"+farbeGelb.toString().substring(2));
             }
         }
 
