@@ -788,6 +788,14 @@ public class SpeiseplanController {
 
     }
 
+    /**
+     * erzeugt ein Alert mit Ja und Nein Button um den User zu Fragen ob er den übergebenen Speiseplan als PDF Abbspeichern möchte.
+     * ließt die eingabe aus.
+     * Klickt der User Ja wird die methode speichernSpeiseplanPDF(). Anscheließend schließt sich das Fenster
+     * Klickt der User Nein schließt sich das Fenster lediglich
+     * @param sp
+     * @throws IOException
+     */
     private void abfragePDFSpeichern(Speiseplan sp) throws IOException {
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setTitle("PDF Erstellen");
@@ -811,6 +819,17 @@ public class SpeiseplanController {
         Stage stage = (Stage) btSpeichern.getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Erzeugt eine Filechooser der nur .pdf datein anzeigt.
+     * lässt den User ein Gewünschtes File zum speichern auswählen.
+     * Aus dem Zurückgegeben Pfad wird eine File erstellt.
+     * sollte das file noch nciht vorhanden sein wird ein neues Erstellt
+     * Gibt es das file schon wird es überschrieben mit dem PDF erzeugt duch die Methode createSpeiseplanPDF der Klasse PDFCreator
+     * Das Programm öffnet das PDF file im auf dem System dafür als Standard eingestellten Browser
+     * @param sp
+     * @throws IOException
+     */
 
     private void speichernSpeiseplanPDF(Speiseplan sp) throws IOException {
 

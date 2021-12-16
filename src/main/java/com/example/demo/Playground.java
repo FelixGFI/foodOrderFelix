@@ -110,6 +110,9 @@ class PersonAlt implements Serializable {
     public void setAlter(int alter) {
         this.alter = alter;
     }
+
+    BranchTestClass branchTestClass = new BranchTestClass(true, 1);
+
 }
 
 class Person implements Serializable {
@@ -168,5 +171,14 @@ class Person implements Serializable {
 
     public void setGeschlecht(String geschlecht) {
         this.geschlecht = geschlecht;
+    }
+}
+class BranchTestClass {
+    boolean attributEins;
+    int attributZwei;
+
+    public BranchTestClass(boolean attributEins, int attributZwei) {
+        this.attributEins = attributEins;
+        this.attributZwei = attributZwei;
     }
 }
