@@ -4,8 +4,8 @@ import com.example.demo.foodOrder.logic.Speiseplan;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-
-
+import java.time.LocalDate;
+import java.time.Month;
 
 
 public class Playground {
@@ -55,7 +55,12 @@ public class Playground {
         }
 
 
+       LocalDate ld = LocalDate.of(LocalDate.now().getYear()-1, Month.JANUARY, 1);
 
+        for (int i = 0; i < 75; i++) {
+            System.out.println(ld);
+            ld = ld.plusDays(7);
+        }
 
     }
 }

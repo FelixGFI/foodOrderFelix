@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.foodOrder.gui.SpeiseplanController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="850.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.foodOrder.gui.SpeiseplanController">
    <center>
-      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" gridLinesVisible="true" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -25,7 +25,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -223,46 +223,6 @@
                   </HBox>
                </children>
             </VBox>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label text="Montag">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <Label text="Dienstag">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-               <children>
-                  <Label text="Mittwoch">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
-               <children>
-                  <Label text="Freitag">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
-               <children>
-                  <Label text="Donnerstag">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <children>
                   <ImageView fx:id="imDonA" fitHeight="75.0" fitWidth="150.0" onMouseClicked="#onImageClick" pickOnBounds="true" preserveRatio="true">
@@ -581,6 +541,56 @@
                         </Button>
                      </children>
                   </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Montag">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDatMon" text="Label" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Dienstag" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDatDin" text="Label" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+               <children>
+                  <Label text="Mittwoch" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDatMit" text="Label" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+               <children>
+                  <Label text="Donnerstag" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDatDon" text="Label" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+               <children>
+                  <Label text="Freitag" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDatFre" text="Label" textAlignment="CENTER" />
                </children>
             </VBox>
          </children>

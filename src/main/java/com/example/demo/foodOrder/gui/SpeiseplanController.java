@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 public class SpeiseplanController {
@@ -101,9 +104,6 @@ public class SpeiseplanController {
     @FXML private ImageView imFreC = new ImageView();
     @FXML private Button btFreC = new Button();
 
-
-
-
     private final HashMap<Button, GerichtControlsSpeicher> zuordnung = new HashMap<>();
     private FileChooser fileChooserImage;
     private FileChooser fileChooserDat;
@@ -111,12 +111,29 @@ public class SpeiseplanController {
     private Boolean validated = false;
     private ArrayList <Button> buttonList = new ArrayList<>();
     private Speiseplan speiseplan;
+    private boolean kalenderwocheAutomatischBerrechnen = true;
+    private String platzhalterDatumString = "0000-00-00";
 
     @FXML private Button btAbbrechen = new Button();
     @FXML private Button btSpeichern = new Button();
     @FXML private TextField tfKW;
     @FXML private Label lblFehler;
     @FXML private Button btLaden = new Button();
+
+    @FXML private Label lblDatMon = new Label();
+    @FXML private Label lblDatDin = new Label();
+    @FXML private Label lblDatMit = new Label();
+    @FXML private Label lblDatDon = new Label();
+    @FXML private Label lblDatFre = new Label();
+
+    /**
+     * erhält initial Speiseplan. starte Controller und Setzt Fenster auf.
+     * Ruft Methode initializeFields(sp) zum einfügen der Daten des übergebenen anfangs Speiseplans in die GUI auf.
+     * handeld WindowEvent wenn das Fenster per Kreuzchen Geschlossen wird. Wenn bedinungen erfüllt sind ruft Methode zum Anzeigen von Warnung vor dem Schließen auf.
+     * @param sp
+     * @return
+     * @throws IOException
+     */
 
     public static Speiseplan showDialog(Speiseplan sp) throws IOException {
 
@@ -156,8 +173,13 @@ public class SpeiseplanController {
 
     /**
      * initialisiert den String noImagePath, welcher der Pfad zu dem Bild ist angeeziegt wird wenn (noch) kein bild vorhanden ist.
-     * füllt die ArrayList<Button> buttonListaller FXML Button Elemente buttonList
-     * Initializiert
+     * füllt die ArrayList<Button> buttonList mit allen FXML Buttons die zu einem Gericht gehören. (Reset Button) in der Reihnefolge von Gericht a nach C und von Montag nach Freitag
+     * Die FXML Elemente der einzelnen Gerichte später in der Reichtigen Reihenfolge abrufen zu können
+     * füllt die Hashmaop zuordnung mit Elementen der Klasse GerichtControlsSpeicher. In einer Solchen Klasse sind alle FXML Elemente die einem Gericht zugehörig sind abgelegt,
+     * sowie der Zugehörige Tag. ein Jeder GerichtControlsSpeicehr wird dem Passenden FXML Button zur Identifizierung zugeordnet.
+     * Diese Hashmap dient dazu die einzelnen FXML Elemente Später einander Zuordnen zu können.
+     * Anschließend wird durch die gesamte Hashmap iterriert. FÜr jedes Gericht erhält beziechnung und Preis Textfelder entsprechende Textprompts und die jeweilige Image View
+     * erhält das Defaultbild NoImage. Das Textfeld tfKW erhält einen Entsprechenden Textprompt
      * @throws IOException
      */
     @FXML
@@ -202,6 +224,150 @@ public class SpeiseplanController {
         tfKW.setPromptText("KW");
     }
 
+    /**
+     * Ließt den Ihhalt des Textfeldes tfKW aus und Überprüft ob daraus ein Valider Integer gebildet werden kann.
+     * Ist dies der Fall und der gebildte Intager int ausgeleseneKalenderwoche eine Mögliche Kalenderwoche so werden für diese Kalenderwoche
+     * die Methode insertTagesdaten und getTagesDatenArray Aufgerufen. diese Methoden ErmittelnDiese eine Arraylist mit den Kalenderdaten von Montag bis Freitag
+     * für diese Kalenderwoche und fügen diese Daten in die Entsprechenden Label in der GUI ein.
+     * Ist ausgeleseneKalenderwoche keine Gültige Kalnderwoche so wird mittels des bei start des Programms auf true gesetzen Booleans kalenderwocheAutomatischBerechnen
+     * festgestellt ob die Kalenderwoche automatisch Berechnet werden soll. Ist der Boolean true wird er auf Fals gesetzt und anschließend die Akktuelle Kalenderwoche Berechnet
+     * und für diese Die Akktuellen Daten in die Tages Daten Label eingefügt. Ist der Boolean fals wird besagter Programmteil übersprungen.
+     * Ist ausgelsene Kalenderwoche keine Mögliche Kalenderwoche und kalenderwocheAutomatischBerechen auf fals wird else die Methode insertTagesPlatzhlater ausgeführt.
+     * diese Fügt ein Platzhalterdatum in die Tages Datums label in der GUI ein.
+     *
+     * Issues: jede Kalenderwoche zwischen 1 und 53 wird als mögliche Kalenderwoche Akzeptiert auch wenn das akktuelle jahr keine kalenderwoche 53 hat.
+     *
+     */
+    private void setKWundTagesDatenFelder() {
+
+        int ausgeleseneKalenderwoche;
+
+        try {
+            ausgeleseneKalenderwoche = Integer.valueOf(tfKW.getText().trim());
+        } catch (Exception exception) {
+            ausgeleseneKalenderwoche = -1;
+        }
+
+        if(ausgeleseneKalenderwoche > 0 && ausgeleseneKalenderwoche <= 53) {
+            insertTagesdaten(getTagesDatenArray(ausgeleseneKalenderwoche));
+        } else if(kalenderwocheAutomatischBerrechnen){
+            kalenderwocheAutomatischBerrechnen = false;
+            int kalenderWoche = getKalenderwoche(LocalDate.now());
+            tfKW.setText(Integer.toString(kalenderWoche));
+            insertTagesdaten(getTagesDatenArray(kalenderWoche));
+            tfKW.requestFocus();
+            tfKW.selectAll();
+        } else {
+            insertTagesPlatzhalter();
+        }
+    }
+
+    /**
+     * Erhält eine ArrayList<LocalDate> tagesDatenListe welche die einzufügenden daten von Montag bis Freitag in dieser Reihnefolge enthält.
+     * schreibt die Daten aus der Arraylist als String in die entsprechenden FXML label
+     * @param tagesDatenListe
+     */
+
+    private void insertTagesdaten(ArrayList<LocalDate> tagesDatenListe) {
+        lblDatMon.setText(tagesDatenListe.get(0).toString());
+        lblDatDin.setText(tagesDatenListe.get(1).toString());
+        lblDatMit.setText(tagesDatenListe.get(2).toString());
+        lblDatDon.setText(tagesDatenListe.get(3).toString());
+        lblDatFre.setText(tagesDatenListe.get(4).toString());
+    }
+
+    /**
+     * schreibt einen Definierten Plathalterstring in die FXML Label für die Tages Daten.
+     */
+    private void insertTagesPlatzhalter() {
+        lblDatMon.setText(platzhalterDatumString);
+        lblDatDin.setText(platzhalterDatumString);
+        lblDatMit.setText(platzhalterDatumString);
+        lblDatDon.setText(platzhalterDatumString);
+        lblDatFre.setText(platzhalterDatumString);
+    }
+
+    /**
+     * ermittelt anhand des int kalenderwoche das Datum zu den Tagen Montag bis Freitag in besagter Kalenderwoche.
+     * returns eine ArrayList mit den ermittelten LocalDates von Montag bis Freitag der Gegebenen Kalenderwoche
+     * Das Vorhandenseit der angegebenen Kalenderwoche wird nicht Validiert.
+     * @param kalenderwoche
+     * @return
+     */
+    private ArrayList<LocalDate> getTagesDatenArray(int kalenderwoche) {
+        ArrayList<LocalDate> tagesDaten = new ArrayList<>();
+        LocalDate ersterTagDesJahres = LocalDate.of(LocalDate.now().getYear(), Month.JANUARY, 1);
+        LocalDate ersterWochenTag = ersterTagDesJahres;
+        switch (ersterTagDesJahres.getDayOfWeek()) {
+            case MONDAY -> ersterWochenTag = ersterTagDesJahres;
+            case TUESDAY -> ersterWochenTag = ersterWochenTag.minusDays(1);
+            case WEDNESDAY -> ersterWochenTag = ersterWochenTag.minusDays(2);
+            case THURSDAY -> ersterWochenTag = ersterWochenTag.minusDays(3);
+            case FRIDAY -> ersterWochenTag = ersterWochenTag.plusDays(3);
+            case SATURDAY -> ersterWochenTag = ersterWochenTag.plusDays(2);
+            case SUNDAY -> ersterWochenTag = ersterWochenTag.plusDays(1);
+            default -> throw new IllegalStateException("Unexpected value: " + ersterTagDesJahres.getDayOfWeek());
+        }
+
+        for (int i = 0; i < kalenderwoche - 1; i++) {
+            ersterWochenTag = ersterWochenTag.plusDays(7);
+
+        }
+        tagesDaten.add(ersterWochenTag);
+        tagesDaten.add(ersterWochenTag.plusDays(1));
+        tagesDaten.add(ersterWochenTag.plusDays(2));
+        tagesDaten.add(ersterWochenTag.plusDays(3));
+        tagesDaten.add(ersterWochenTag.plusDays(4));
+
+        return tagesDaten;
+    }
+
+    /**
+     * Erhält ein LocalDate Datum eines Tags. Berechnet die Kalenderwoche in der sich besagter Tag befindet als Integer.
+     * gibt die Kalenderwoche als Integer Zurück.
+     * @param date
+     * @return
+     */
+    private int getKalenderwoche(LocalDate date) {
+
+        int umrechnung;
+        int year = date.getYear();
+        LocalDate ersterTagDesJahres = LocalDate.of(year, Month.JANUARY, 1);
+        //   LocalDate first=date.getYear();
+        switch (ersterTagDesJahres.getDayOfWeek()) {
+            case MONDAY -> umrechnung = 0;
+            case TUESDAY -> umrechnung = 1;
+            case WEDNESDAY -> umrechnung = 2;
+            case THURSDAY -> umrechnung = 3;
+            case FRIDAY -> umrechnung = -3;
+            case SATURDAY -> umrechnung = -2;
+            case SUNDAY -> umrechnung = -1;
+            default -> throw new IllegalStateException("Unexpected value: " + ersterTagDesJahres.getDayOfWeek());
+        }
+        int daysCW = (date.getDayOfYear()) + umrechnung;
+        int kalenderWoche = daysCW / 7;
+        kalenderWoche++;
+
+        if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            kalenderWoche--;
+        }
+
+        return kalenderWoche;
+    }
+
+    /**
+     * Aktiviert onClick auf den Butten btLaden.
+     * öffnet einen FileChooser der nur Datein mit der endung .dat anzeigt.
+     * Lädt ein file wenn eines Ausgewählt wurde mit hilfe der Serialisierung.
+     * Wenn das File ein Gültiges Speiseplan Object enthält erstellt die Methode daraus einen Speiseplan und übergibt diesen der entsprechendne Methode
+     * um Ihn in der GUI korrekt anziegen zu lassen
+     *
+     * Issues: es ist möglich mittels eingabe in der Suchzeile des durch den Fileschooser geöffeneten Fensters ein file welches nicht die endung .dat
+     * hat auszuwählen
+     * die MEthode wirft eine Exception wenn das .dat File keinen Gültigen Speiseplan enthält
+     * @throws FileNotFoundException
+     */
+
     @FXML void onBtLadenClick() throws FileNotFoundException {
         if (this.fileChooserDat == null) {
             fileChooserDat = new FileChooser();
@@ -233,6 +399,18 @@ public class SpeiseplanController {
 
     }
 
+    /**
+     * erhält einen Speiseplan sp.
+     * füllt alle Felder der GUI mit den im Speiseplan enthaltenen Gerichten sofern vorhanden.
+     * hierzu erzeugt dei Methode für jeden Tag eine ArrayList<Gericht> mit allen FÜr den Tag im speiseplan object vorhanden Gerichten.
+     * erzeugt ausserdem für jeden Tag mit Hilfe der Hashmap Zuordnung eine ArrayList<GerichtControlsSpeicher> mit den zu dem Tag gehörenden GerichtControlsSpeicher objekten.
+     * ruft dan für jeden Tag eine Methode auf die aus den Zwei listen die Gerichte am Entsprechenden Tag befüllt.
+     * fügt im Speiseplan gespeicherte Kalenderwoche in das Textfeld tfKW ein. +
+     * ruft die Methode setKWundTagesDatenFelder() zur Aktuellisierung der Tagesdaten auf
+     *
+     * Issues: Speisepläne können theoretisch mehr als 3 Gerichte Pro Tag enthalten. Da die Gui allerdigns nur maximal 3 Pro Tag anzeigt werden überzhälige gerichte quasi verworfen.
+     * @param sp
+     */
     void initializeFields(Speiseplan sp) {
 
         this.speiseplan = sp;
@@ -281,18 +459,22 @@ public class SpeiseplanController {
                 try{
                     tfKW.setText(Integer.toString(speiseplan.getKw()));
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             } else {
-                tfKW.setText("");
+
             }
-
-
         }
-
-
+        setKWundTagesDatenFelder();
     }
 
+    /**
+     * Setzt alle Felder auf Ausgangszustand zurück.
+     * Fügt Anschließend solange Daten Vorhanden sind (Maximal Drei Gerichte) alle Gerichte aus der gerichtList in die korrekten FXML Elemente aus der fxmlList ein.
+     * Prüft ob für ein Gericht ein Image eingefügt werden soll. Wenn ja Ruft Methode setImage auf
+     * @param gerichtList
+     * @param fxmlList
+     */
     private void addAllGerichteToTag(ArrayList<Gericht> gerichtList, ArrayList<GerichtControlsSpeicher> fxmlList) {
         /**
          * Alle Felder Leeren
@@ -305,7 +487,7 @@ public class SpeiseplanController {
         }
 
         /**
-         * Wenn Daten für diese Vorhanden sind, Felder mit diesen Ausfüllen
+         * Wenn Daten für diese Vorhanden sind, Felder mit diesen ausfüllen.
          */
 
         if(gerichtList != null) {
@@ -322,6 +504,15 @@ public class SpeiseplanController {
         }
     }
 
+    /**
+     * erstellte aus ImagePath String aus übergebenem Gericht Object ein Image Object und Fügte dieses in die,
+     * im übergebenen GerichtControlsSPeicher obeject enthaltene, ImageView ein.
+     * Tut nichts wenn im Gericht kein ImagePath vorhanden ist bzw. wenn das verlinkte File nicht gefunden wurde.
+     * Vorherige Validierung des Vorhandenseins eines Korrekten ImagePath empfhohlen.
+     *
+     * @param ger
+     * @param fxmlSpeicher
+     */
     private void setImage(Gericht ger, GerichtControlsSpeicher fxmlSpeicher) {
         try {
             File f = new File(ger.getGerichtBildPath());
@@ -333,6 +524,13 @@ public class SpeiseplanController {
             System.out.println("Bild nicht gefunden. Verwende Standard Bild");
         }
     }
+
+    /**
+     * Wird Ausgelöst wenn auf einen der für jedes Gericht einmal vorhandenen Reset Buttons gedrückt wird.
+     * ließt aus welcher Button Gedrückt wurde. Wählt anschleißend anhand des ermittelten Buttons das zugehörige GerichtControlsSpeicerh Object
+     * aus der HashMap Zuordnung und setzt die darin enthaltenen FXML Elemente in den Ausgangszustand zurück.
+     * Wenn anhand des boolen validated festgestellt wird das bereits validiert wurde wird nun durch den aufruf der methode validieren() erneut validiert
+     */
 
     @FXML
     protected void onResetButtonClick() {
@@ -346,6 +544,16 @@ public class SpeiseplanController {
             validieren();
         }
     }
+
+    /**
+     * wählt ein Image für ein Gericht aus.
+     * wird ausgeführt wenn auf eines der Imageviews in der GUI eine Mausklick ausgeführt wird.
+     * wenn noch nicht passiert initialisiert den filechooser so das er nur .png und .jpg datein anzeigt.
+     * Das Gecklichte ImageView wird ermittelt. Es wird anschließend durch die Hashmap Zuordnung Iteriert und auf Übereinstimmungen geprüft.
+     * Wenn eine korrektes File ausgewählt wurde wird dieses in die ermitelte, angeklickte Imageview engefügt.
+     * @param event
+     * @throws FileNotFoundException
+     */
 
     @FXML
     protected void onImageClick(MouseEvent event) throws FileNotFoundException {
@@ -377,6 +585,14 @@ public class SpeiseplanController {
 
     }
 
+    /**
+     * wird ausgeführt wenn der Button btAbbrechen gecklickt wird.
+     * wenn mindestens eine Nutzereingabe vorhanden ist wird ein Alert an den Nutzer Ausgegeben.
+     * In diesem muss dieser Bestätigen das er die eingegegebnen Daten wirklich verwerfen will.
+     * Das Programm wird geschlossen wenn eingaben Gemacht wurden und der Nutzer deren Verwerfen Bestätigt oder Wenn keine Nutzereingaben gemacht wurden
+     * das Programm bleibt offen wenn eingaben Gemacht wurdn und der Nutzer deren Verwefen ablehnt.
+     */
+
     @FXML
     protected void onBtAbbrechenClick() {
 
@@ -395,6 +611,11 @@ public class SpeiseplanController {
             stage.close();
         }
     }
+
+    /**
+     * Erstellt bei Aufrufen einen Alert als warnung das bei Bestätigen alle ungespeicherten Daten verloren gehen.
+     * @return
+     */
 
     private Alert createWarningAlertBeforeCloseWindow() {
         Alert a = new Alert(Alert.AlertType.WARNING);
@@ -417,10 +638,21 @@ public class SpeiseplanController {
         return a;
     }
 
+    /**
+     * Überprüft ob der Nutzer bereits eingaben gemacht hat.
+     * Sind eingaben vom Nutzer in einem der tfPreisTag oder tfBeziechnungTag Textfelder Gemacht worden gibt die Methode true zurück
+     * Sind eingaben im Textfeld  tfKW gemacht worde gibt die Methode true zurück,
+     * es sei den die eingabe entspricht der Automatisch eingefügten Akktuellen Kalenderwoche. In diesem Fall gibt die Methode false zurück
+     * werden keine eingaben in den Bezeichungs und Preis Textfeldern gefunden und werden keine eingaben im Textfeld tfKW gefunden gibt die Methode false zurück
+     * @return
+     */
+
     protected boolean mindestensEineEingabeVorhanden() {
         boolean eingabeVorhanden = false;
 
-        if(!this.tfKW.getText().equals("")) {
+        System.out.println(KwKannVerworfenWerden());
+
+        if(!this.tfKW.getText().equals("") && !KwKannVerworfenWerden()) {
             eingabeVorhanden = true;
         }
 
@@ -437,6 +669,42 @@ public class SpeiseplanController {
 
         return eingabeVorhanden;
     }
+
+    /**
+     * überprüft ob die Momentane Eingabe im Textfeld tfKW der Automtisch erreichneten Akktuellen Kalenderwoche entspricht.
+     * Wenn ja gibt true zurück, wenn nein gibt false zurück
+     * @return
+     */
+
+    private boolean KwKannVerworfenWerden() {
+        boolean kwKannVerworfenWerden = false;
+        String akktuelleKalenderwoche = getKalenderwoche(LocalDate.now()) + "";
+        if(tfKW.getText().trim().equals(akktuelleKalenderwoche)) {
+            kwKannVerworfenWerden = true;
+        }
+        return kwKannVerworfenWerden;
+    }
+
+    /**
+     * führt die Methode validieren aus.
+     * Wenn Validierung nicht erfolgreic:h requests Focus auf das Erste Fehelrhafte Feld
+     *
+     * Wenn Validierung erfoglreich:
+     *
+     * erstellt für jeden Tag Montag bis freitag eine ArrayList<Gericht> tagList
+     * ließt Integer kw aus textfeld tfKW aus.
+     * itteriert durch zuordnung Hashmap
+     * Wenn ein Gericht im Textfeld tfPreisTag und tfBezeichnungTag eingaben enthält werden diese Verarbeitet und daraus ein Gerichtsobject erzeugt.
+     * Ist ein Bild Vorhanden wird sein Pfad ermittelt und dieser zum Geircht hinzugefügt. Das Gericht wird in die Arraylist des Jewieligen Tages hinzugefügt.
+     *
+     * ist Eine Arraylist nach beendigung der Schleife lehr wird sie auf null gesetzt.
+     * Anschließend: Erstellt Speiseplan object aus kw und den tagList Arraylists
+     *
+     * ein speicherplatz für den Speiseplan wird mit der Methode speichernSpeiseplanDat() vom Nutzer erfragt
+     * die Methode abfragePDFSpeichern fragt den Nutzer ob er den SPeiseplan als PDF speichern möchte und leitet wenn ja alles notwendige in die Wege
+     *
+     * @throws IOException
+     */
 
     @FXML
     protected void onBtSpeichernClick() throws IOException {
@@ -743,6 +1011,9 @@ public class SpeiseplanController {
             validieren();
         } else if (event.getCode() == KeyCode.ENTER) {
             setFocusOnNextTextEmptyTextField(event);
+        }
+        if(event.getSource() == tfKW) {
+            setKWundTagesDatenFelder();
         }
     }
 
